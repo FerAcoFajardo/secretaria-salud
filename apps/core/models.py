@@ -95,6 +95,7 @@ class Consulta(Common):
     comentarios_consulta = models.CharField('Comentarios', max_length=255)
     usuario = models.ForeignKey(verbose_name='Medico', to=Usuario, related_name='medico', related_query_name='medicos',
                                 on_delete=models.CASCADE)
+    cita = models.ForeignKey(verbose_name='Cita', to='Cita', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.comentarios_consulta
@@ -110,6 +111,7 @@ class Imagen(Common):
     usuario = models.ForeignKey(verbose_name='Análista', to=Usuario, related_name='analista',
                                 related_query_name='quimicos', on_delete=models.CASCADE)
     imagen = models.ImageField('Imagen', upload_to='examenes/', max_length=255, blank=False, null=False)
+    cita = models.ForeignKey(verbose_name='Cita', to='Cita', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.comentarios_imagen
@@ -125,6 +127,7 @@ class Laboratorio(Common):
     usuario = models.ForeignKey(verbose_name='Quimico', to=Usuario, related_name='quimico',
                                 related_query_name='quimicos', on_delete=models.CASCADE)
     resultado_PDF = models.FileField('Resultado', upload_to='resultados/', max_length=255, blank=False, null=False)
+    cita = models.ForeignKey(verbose_name='Cita', to='Cita', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.comentarios_laboratorio
@@ -141,9 +144,9 @@ class Cita(Common):
     fecha = models.DateTimeField('Fecha', auto_now=False, auto_now_add=False)
     usuario = models.ForeignKey(verbose_name='Medico', to=Usuario, related_name='medico_consulta',
                                 related_query_name='medicos_consulta', on_delete=models.CASCADE)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    servicio = GenericForeignKey('content_type', 'object_id')
+    # content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    # object_id = models.PositiveIntegerField()
+    # servicio = GenericForeignKey('content_type', 'object_id')
 
     def __str__(self):
         return self.comentario

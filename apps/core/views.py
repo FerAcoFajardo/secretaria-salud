@@ -4,6 +4,7 @@ from django.views import View
 from django.views.generic import TemplateView
 # Create your views here.
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import *
 from .forms import *
@@ -47,3 +48,29 @@ class LoginView(View):
 
 class HomeView(TemplateView):
     template_name = 'home.html'
+
+    def get(self, request):
+        print(f'{request.user=}')
+        return super().get(request)
+    
+    
+class ObtenerPacienteView(View):
+    
+    def get(self, request):
+        curp = request.GET.get('curp')
+        
+        huella = request.FILES.get('huella')
+        huella_base64 = base64.b64encode(huella.file.getvalue())
+        
+        paciente = Paciente.objects.get(curp=curp)
+        
+        huella_usuario = base64.b64encode(paciente.huella.file.read())
+        if huella_base64 == huella_usuario:
+            # get Expediente
+            expediente = paciente.expediente
+            cita = Cita.object.filter(expediente=expediente).last()
+            
+            
+        
+        
+        

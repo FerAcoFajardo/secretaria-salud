@@ -97,13 +97,17 @@ WSGI_APPLICATION = 'secretaria_salud.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 # SECURITY WARNING: keep the DB credentials hidden in .env when deploying to production!!!! (TODO)
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': os.getenv('SQL_ENGINE'),
+    #     'NAME': os.getenv('SQL_DBNAME'),
+    #     'USER': os.getenv('SQL_USER'),
+    #     'PASSWORD': os.getenv('SQL_PASSWORD'),
+    #     'HOST': os.getenv('SQL_HOST'),
+    #     'Port': os.getenv('SQL_PORT'),
+    # }
     'default': {
-        'ENGINE': os.getenv('SQL_ENGINE'),
-        'NAME': os.getenv('SQL_DBNAME'),
-        'USER': os.getenv('SQL_USER'),
-        'PASSWORD': os.getenv('SQL_PASSWORD'),
-        'HOST': os.getenv('SQL_HOST'),
-        'Port': os.getenv('SQL_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
