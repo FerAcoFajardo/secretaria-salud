@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import View
@@ -5,6 +6,11 @@ from django.views.generic import TemplateView
 # Create your views here.
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core import serializers
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 from .models import *
 from .forms import *
@@ -54,12 +60,15 @@ class HomeView(TemplateView):
         return super().get(request)
     
     
-class ObtenerPacienteView(View):
+class ObtenerPacienteView(APIView):
     
     def get(self, request):
-        curp = request.GET.get('curp')
+        curp = request.data.get('curp')
         
-        huella = request.FILES.get('huella')
+        print(f'{curp=}')
+        
+        huella = request.data.get('huella')
+        print(huella)
         huella_base64 = base64.b64encode(huella.file.getvalue())
         
         paciente = Paciente.objects.get(curp=curp)
@@ -68,7 +77,23 @@ class ObtenerPacienteView(View):
         if huella_base64 == huella_usuario:
             # get Expediente
             expediente = paciente.expediente
-            cita = Cita.object.filter(expediente=expediente).last()
+            cita = Cita.objects.filter(expediente=expediente).last()
+            cita_serialized = serializers.serialize('json', cita)
+            
+            consultas = Consulta.objects.filter(cita=cita)
+            consultas_serialized = serializers.serialize('json', consultas)
+            
+            images = Imagen.objects.filter(cita=cita)
+            images_serialized = serializers.serialize('json', images)
+            
+            laboratorio = Laboratorio.objects.filter(cita=cita)
+            laboratorio_serialized = serializers.serialize('json', laboratorio)
+            
+            
+            response = {'cita': cita_serialized, 'consultas': consultas_serialized, 'images': images_serialized, 'laboratorio': laboratorio_serialized}
+            
+            return Response(response, status=200)
+            
             
             
         
