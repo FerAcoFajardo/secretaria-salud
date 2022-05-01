@@ -5,10 +5,6 @@ log.txt
 *.pyc
 __pycache__
 db.sqlite3
-media/**/*
-!media/profiles/
-!media/profiles/generic/
-!media/profiles/generic/**
 
 # Backup files # 
 *.bak 

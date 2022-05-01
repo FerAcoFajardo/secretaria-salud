@@ -26,17 +26,18 @@ class LoginView(View):
         if form.is_valid():
             print(f'Entro al formulario')
             
-            
-            # Huella to base64
-            huella_dactilar = request.FILES.get('huella')
-            huella_dactilar = base64.b64encode(huella_dactilar.file.getvalue())
             cedula_profesional = form.cleaned_data['cedula_profesional']
+            huella = request.FILES.get('huella')
             
-            form.huella = huella_dactilar
+            huella_base64 = base64.b64encode(huella.file.getvalue())
             
-            resultado = form.authenticate(request)
-            
-            if resultado is None:
+            if cedula_profesional and huella:
+                
+                usuario = Usuario.objects.get(cedula_profesional=cedula_profesional)
+                huella_usuario = base64.b64encode(usuario.huella.file.read())
+                if huella_base64 == huella_usuario:
+                    login(request, usuario)
+                    return redirect(reverse_lazy('home'))
                 return render(request, 'index.html', {'form': form, 'error': 'Usuario o contraseña incorrectos'})
         else:
             print(f'{form.errors=}')

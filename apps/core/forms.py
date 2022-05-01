@@ -4,6 +4,7 @@ from django import forms
 
 
 from .models import Usuario
+import base64
 
 
 class LoginForm(forms.Form):
@@ -23,13 +24,21 @@ class LoginForm(forms.Form):
                                                                     'focus:bg-white focus:border-blue-600 '
                                                                     'focus:outline-none'}))
 
+
     
-    def authenticate(self, request):
-        cedula_profesional = self.cleaned_data['cedula_profesional']
-        huella = self.cleaned_data['huella']
+    # def authenticate(self, request):
+    #     cedula_profesional = self.cleaned_data['cedula_profesional']
+    #     huella = self.cleaned_data['huella']
         
-        if cedula_profesional and huella:
-            usuario = Usuario.objects.get(cedula_profesional=cedula_profesional, huella=huella)
-            login(request, usuario)
-            return usuario
-        return None
+    #     print(base64.b64encode(huella.file.getvalue()))
+        
+    #     print(f'{cedula_profesional}')
+    #     print(f'{huella}')
+        
+    #     if cedula_profesional and huella:
+            
+    #         usuario = Usuario.objects.get(cedula_profesional=cedula_profesional)
+    #         print(f'{usuario.huella}')
+    #         login(request, usuario)
+    #         return usuario
+    #     return None

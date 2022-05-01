@@ -8,7 +8,7 @@ from .managers import CustomUserManager
 
 class Usuario(AbstractBaseUser):
     cedula_profesional = models.CharField('Cedula profesional', max_length=50, unique=True)
-    huella = models.CharField('Huella', max_length=99999, unique=True)
+    huella = models.ImageField('Huella',upload_to='huellas/', max_length=10485760, unique=True)
     nombre = models.CharField('Nombre', max_length=50)
     correo = models.EmailField('Correo', max_length=50, unique=True)
     telefono = models.CharField('Telefono', max_length=50)
