@@ -40,7 +40,8 @@ INSTALLED_APPS = [
 
     # Django Project Apps
     'apps.dashboard',
-    'apps.users',
+    # 'apps.users',
+    'apps.core',
 
     # Third Pary Apps
     'rest_framework',
@@ -179,3 +180,5 @@ INTERNAL_IPS = [
 ]
 
 NPM_BIN_PATH = '/usr/bin/npm'
+
+AUTH_USER_MODEL = 'core.Usuario'
