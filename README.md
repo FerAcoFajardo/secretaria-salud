@@ -75,8 +75,8 @@ python manage.py startapp nombreApp
 
 ### To create a working app
 
-1. Create the app and **add its path to the general [*urls.py*](./djangoproject/urls.py) file.** *REMEMBER!* Add it to both **the import & the urlpattern**
-2. Add the **app name** to the [*djangoproject/settings.py* file](./djangoproject/settings.py) inside the **INSTALLED_APPS** variable (after the comment in line 37, #Django Project Apps)
+1. Create the app and **add its path to the general [*urls.py*](secretaria_salud/urls.py) file.** *REMEMBER!* Add it to both **the import & the urlpattern**
+2. Add the **app name** to the [*djangoproject/settings.py* file](secretaria_salud/settings.py) inside the **INSTALLED_APPS** variable (after the comment in line 37, #Django Project Apps)
 3. Copy the [*urls.py*](./exampleApp/urls.py) of the example app into your new one and **change the *app_name* variable** that is written after the imports
 4. Copy the [*models.py*](./exampleApp/models.py) and [*forms.py*](./exampleApp/forms.py) of the **exampleApp** and adequate their logic to fit your new app.
 5. You'll most probably need to change the [*views.py*](./exampleApp/views.py) logic

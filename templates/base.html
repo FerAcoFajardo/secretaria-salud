@@ -22,7 +22,7 @@
         {% tailwind_css %}
         {% block css %}{% endblock %}
 
-        
+
     </head>
 
     <body id="page-top">
@@ -50,7 +50,7 @@
                         <li class="nav-item">
                             <a href="{% url 'dashboard:index' %}" class="nav-link
                                 {% if request.resolver_match.app_name == 'dashboard' %} active {% endif %}">
-                                
+
                                 <i class="fas fa-chart-bar"></i>
                                <span>Dashboard</span>
                             </a>
@@ -58,7 +58,7 @@
                         <li class="nav-item">
                             <a href="{% url 'exampleInventario:index' %}" class="nav-link
                                {% if request.resolver_match.app_name == 'exampleInventario' %} active {% endif %}">
-                                
+
                                 <i class="fas fa-table"></i>
                                 <span>Inventory</span>
                             </a>
@@ -68,7 +68,7 @@
                         <li class="nav-item">
                             <a href="{% url 'examplePurchases:index' %}" class="nav-link
                                {% if request.resolver_match.app_name == 'examplePurchases' %} active {% endif %}">
-                                
+
                                 <i class="fas fa-shopping-bag"></i>
                                 <span>Purchases</span>
                             </a>
@@ -79,7 +79,7 @@
                         <li class="nav-item">
                             <a href="{% url 'registerAdmin' %}" class="nav-link
                                 ">
-                                
+
                                 <i class="fas fa-user"></i>
                                 <span>Registrar usuario</span>
                             </a>
@@ -118,7 +118,7 @@
                                             <i class="fas fa-search"></i>
                                         </button>
                                     {% endif %}
-                                    
+
                                 </div>
                             </form>
 
@@ -380,7 +380,7 @@
 
         <!-- Page level plugins -->
         {% block js %}{% endblock %}
-        
+
         <script src="{% static 'assets/js/script.min.js' %}"></script>
         <script src="{% static 'assets/js/main.js' %}"></script>
     </body>
