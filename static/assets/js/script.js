@@ -104,6 +104,14 @@ const downloadFile = (url) => {
         cancelButtonText: 'Cancelar',
     }).then((result) => {
         if (result.isConfirmed) {
+            console.log(url);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = url.split('/').pop();
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -168,12 +176,12 @@ async function displayResults(response) {
         // Append spand to li
         li.appendChild(span);
         li.appendChild(span2);
-        
+
         // Append li to ul
         lista_consultas.appendChild(li);
     }
-    
-    
+
+
     let lista_laboratorios = document.querySelector("#lista-laboratorios");
 
     // Iterate over consultas
@@ -189,7 +197,7 @@ async function displayResults(response) {
         // Add class to span element
         span.setAttribute('class', 'block bg-white p-4 rounded-full');
         // Add onClick event to span element
-        span.onclick = downloadFile;
+        span.onclick = downloadFile.bind(this, laboratorio.resultado_PDF);
         span.id = 'downloadFile';
         // Add href attribute to span element
         span.setAttribute('href', '#');
@@ -215,13 +223,13 @@ async function displayResults(response) {
         // Append spand to li
         li.appendChild(span);
         li.appendChild(span2);
-        
+
         // Append li to ul
         lista_laboratorios.appendChild(li);
     }
-    
-    
-    
+
+
+
     let lista_imagenes = document.querySelector("#lista-imagenes");
 
     // Iterate over consultas
@@ -237,7 +245,8 @@ async function displayResults(response) {
         // Add class to span element
         span.setAttribute('class', 'block bg-white p-4 rounded-full');
         // Add onClick event to span element
-        span.addEventListener('click', downloadFile, imagen.imagen);
+        // span.addEventListener('click', downloadFile, imagen.imagen);
+        span.onclick = downloadFile.bind(this, imagen.imagen);
         span.id = 'downloadFile';
         // Add href attribute to span element
         span.setAttribute('href', imagen.imagen);
@@ -263,7 +272,7 @@ async function displayResults(response) {
         // Append spand to li
         li.appendChild(span);
         li.appendChild(span2);
-        
+
         // Append li to ul
         lista_imagenes.appendChild(li);
     }
