@@ -26,7 +26,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG')
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://secretaria-salud.herokuapp.com', 'https://secretaria-salud.herokuapp.com/']
 
 
 # Application definition
@@ -186,3 +186,14 @@ INTERNAL_IPS = [
 NPM_BIN_PATH = '/usr/local/bin/npm'
 
 AUTH_USER_MODEL = 'core.Usuario'
+
+
+# Configure cors headers
+CORS_ORIGIN_ALLOW_ALL = False
+# Change when it is needed
+CORS_ORIGIN_WHITELIST = (
+    'https://secretaria-salud.herokuapp.com',
+    'https://secretaria-salud.herokuapp.com/',
+    'http://secretaria-salud.herokuapp.com',
+    'http://secretaria-salud.herokuapp.com/',
+)
