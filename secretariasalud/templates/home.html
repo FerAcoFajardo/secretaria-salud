@@ -122,7 +122,7 @@
         <article class="">
 
             <form class="bg-white shadow rounded-lg mb-6 p-4">
-                <textarea name="message" placeholder="Escribe la Curp del Paciente..." required
+                <textarea name="message" id="curp" placeholder="Escribe la Curp del Paciente..." required
                     class="w-full rounded-lg p-2 text-sm bg-gray-100 border border-transparent appearance-none rounded-tg placeholder-gray-400"></textarea>
                 <footer class="flex justify-between mt-2">
                     <div class="flex gap-2">
@@ -161,7 +161,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span id="downloadFile" onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16" src="../assets/medical-history.png">
+                        <img class="w-16" src="{% static 'assets/img/medical-history.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">
@@ -173,7 +173,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16" src="../assets/medical-history.png">
+                        <img class="w-16" src="{% static 'assets/img/medical-history.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">
@@ -186,7 +186,7 @@
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
                         <!-- Thumbnail -->
-                        <img class="w-16" src="../assets/medical-history.png">
+                        <img class="w-16" src="{% static 'assets/img/medical-history.png' %}">
                     </span>
 
                     <!-- Username -->
@@ -200,7 +200,7 @@
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
                         <!-- Thumbnail -->
-                        <img class="w-16" src="../assets/medical-history.png">
+                        <img class="w-16" src="{% static 'assets/img/medical-history.png' %}">
                     </span>
         
                     <!-- Username -->
@@ -213,7 +213,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16" src="../assets/medical-history.png">
+                        <img class="w-16" src="{% static 'assets/img/medical-history.png' %}">
                     </span>
         
 
@@ -227,7 +227,7 @@
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
                         <!-- Thumbnail -->
-                        <img class="w-16" src="../assets/medical-history.png">
+                        <img class="w-16" src="{% static 'assets/img/medical-history.png' %}">
                     </span>
                 
 
@@ -247,7 +247,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16 " src="../assets/research.png">
+                        <img class="w-16 " src="{% static 'assets/img/research.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">
@@ -259,7 +259,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16 " src="../assets/research.png">
+                        <img class="w-16 " src="{% static 'assets/img/research.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">
@@ -271,7 +271,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16 " src="../assets/research.png">
+                        <img class="w-16 " src="{% static 'assets/img/research.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">
@@ -283,7 +283,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16 " src="../assets/research.png">
+                        <img class="w-16 " src="{% static 'assets/img/research.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">
@@ -295,7 +295,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16 " src="../assets/research.png">
+                        <img class="w-16 " src="{% static 'assets/img/research.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">
@@ -306,7 +306,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16 " src="../assets/research.png">
+                        <img class="w-16 " src="{% static 'assets/img/research.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">
@@ -324,7 +324,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16 " src="../assets/radiografia.png">
+                        <img class="w-16 " src="{% static 'assets/img/radiografia.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">
@@ -336,7 +336,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16 " src="../assets/radiografia.png">
+                        <img class="w-16 " src="{% static 'assets/img/radiografia.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">
@@ -348,7 +348,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16 " src="../assets/radiografia.png">
+                        <img class="w-16 " src="{% static 'assets/img/radiografia.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">
@@ -360,7 +360,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16 " src="../assets/radiografia.png">
+                        <img class="w-16 " src="{% static 'assets/img/radiografia.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">
@@ -372,7 +372,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16 " src="../assets/radiografia.png">
+                        <img class="w-16 " src="{% static 'assets/img/radiografia.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">
@@ -383,7 +383,7 @@
                 <li class="flex flex-col items-center space-y-2">
                     <!-- Ring -->
                     <span onclick="downloadFile()" class="block bg-white p-4 rounded-full" href="#">
-                        <img class="w-16 " src="../assets/radiografia.png">
+                        <img class="w-16 " src="{% static 'assets/img/radiografia.png' %}">
                     </span>
                     <!-- Username -->
                     <span class="text-xs text-gray-500">

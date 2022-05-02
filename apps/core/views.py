@@ -63,7 +63,7 @@ class HomeView(LoginRequiredMixin, TemplateView):
     
 class ObtenerPacienteView(APIView):
     
-    def get(self, request):
+    def post(self, request):
         curp = request.data.get('curp')
         response = {}
         
@@ -103,6 +103,7 @@ class ObtenerPacienteView(APIView):
             try:
                 laboratorio = Laboratorio.objects.filter(cita=cita)
                 laboratorio = LaboratorioSerializer(laboratorio, many=True)
+                response['laboratorios'] = laboratorio.data
             except Laboratorio.DoesNotExist:
                 pass
             

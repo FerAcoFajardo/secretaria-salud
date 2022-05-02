@@ -6,7 +6,7 @@ const giveAccess = () => {
     event.preventDefault();
     swal.fire({
         title: 'Ingresa la huella del paciente',
-        input: 'text',
+        input: 'file',
         inputAttributes: {
             autocapitalize: 'off'
         },
@@ -15,9 +15,27 @@ const giveAccess = () => {
         confirmButtonText: 'Confirmar',
         confirmButtonColor: '#38bdf8',
         showLoaderOnConfirm: true,
-        preConfirm: (login) => {
-            return fetch(`//api.github.com/users/${login}`)
+        preConfirm: (huella) => {
+            // Message from home.html
+            let curp = document.getElementById('curp').innerHTML;
+            console.log(huella)
+            let formdata = new FormData();
+
+            formdata.append("curp", curp);
+            formdata.append("huella", huella, "huella.jpg");
+
+            console.log(formdata);
+
+            let requestOptions = {
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            };
+
+            console.log(requestOptions)
+            return fetch(`https://secretaria-salud.herokuapp.com/get-info/`, requestOptions)
                 .then(response => {
+                    console.log(response);
                     if (!response.ok) {
                         throw new Error(response.statusText)
                     }

@@ -189,13 +189,14 @@ AUTH_USER_MODEL = 'core.Usuario'
 
 
 # Configure cors headers
-CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_ALLOW_ALL = True
 # Change when it is needed
-CORS_ORIGIN_WHITELIST = (
-    'https://secretaria-salud.herokuapp.com',
-    'https://secretaria-salud.herokuapp.com/',
-    'http://secretaria-salud.herokuapp.com',
-    'http://secretaria-salud.herokuapp.com/',
-)
+# CORS_ORIGIN_WHITELIST = (
+#     'https://secretaria-salud.herokuapp.com',
+#     'https://secretaria-salud.herokuapp.com/',
+#     'http://secretaria-salud.herokuapp.com',
+#     'http://secretaria-salud.herokuapp.com/',
+#     'http://localhost:8000',
+# )
 
 LOGOUT_REDIRECT_URL = '/'
