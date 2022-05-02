@@ -1,5 +1,22 @@
 // import Swal from '../node_modules/sweetalert2';
 
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
+
 
 const giveAccess = () => {
     let show = false;
@@ -17,28 +34,28 @@ const giveAccess = () => {
         showLoaderOnConfirm: true,
         preConfirm: (huella) => {
             // Message from home.html
-            let curp = document.getElementById('curp').innerHTML;
-            console.log(huella)
+            let curp = document.querySelector('#curp-input').value;
             let formdata = new FormData();
 
             formdata.append("curp", curp);
-            formdata.append("huella", huella, "huella.jpg");
+            formdata.append("huella", huella);
 
-            console.log(formdata);
+
+            // console.log(formdata);
 
             let requestOptions = {
                 method: 'POST',
                 body: formdata,
-                redirect: 'follow'
+                headers: { 'X-CSRFToken': csrftoken },
+                redirect: 'follow',
+                csrfmiddlewaretoken: '{{ csrf_token() }}'
             };
 
-            console.log(requestOptions)
-            return fetch(`https://secretaria-salud.herokuapp.com/get-info/`, requestOptions)
-                .then(response => {
-                    console.log(response);
-                    if (!response.ok) {
-                        throw new Error(response.statusText)
-                    }
+            // console.log(requestOptions)
+            return fetch(`http://localhost:8000/get-info/`, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
                     let timerInterval
                     Swal.fire({
                         title: 'Procesando Huella',
@@ -57,13 +74,13 @@ const giveAccess = () => {
                     }).then(() => {
                         Swal.fire({
                             title: `Acceso Permitido`,
-                            text: 'Paciente Joaquin Guzman',
+                            text: `Paciente ${data.paciente.nombre}`,
                             // imageUrl: 'https://res.cloudinary.com/twenty20/private_images/t_standard-fit/v1618540156/photosp/371b7901-4b1f-453c-b3fb-ae40efb8f153/371b7901-4b1f-453c-b3fb-ae40efb8f153.jpg',
                             confirmButtonColor: '#48cae4',
                         })
                     })
 
-                    displayResults(response);
+                    displayResults(data);
                 })
                 .catch(error => {
                     Swal.showValidationMessage(
@@ -99,9 +116,10 @@ const downloadFile = () => {
 }
 
 async function displayResults(response) {
-    document.getElementById('patientName').appendChild(document.createElement('p').innerHTML = `${response.name}`);
-    document.getElementById('datosGenerales').appendChild(document.createElement('p').innerHTML = `${response.sexo} - ${reponse.edad}`);
-    document.getElementById('curp').appendChild(document.createElement('p').innerHTML = `Curp - ${response.curp}`);
+
+    document.getElementById('patientName').append(document.createElement('p').innerHTML = `${response.paciente.nombre}`);
+    document.getElementById('datosGenerales').append(document.createElement('p').innerHTML = `${response.paciente.sexo} - ${response.paciente.fecha_nacimiento}`);
+    document.getElementById('curp').append(document.createElement('p').innerHTML = `Curp - ${response.paciente.curp}`);
     await manageFiles(response.files);
 
     document.getElementById('pacienteArea').style.display = 'block';

@@ -50,3 +50,10 @@ class LaboratorioSerializer(serializers.ModelSerializer):
         model = Laboratorio
         fields = '__all__'
         
+
+class PacienteSerializer(serializers.ModelSerializer):
+    
+    
+    class Meta:
+        model = Paciente
+        fields = '__all__'

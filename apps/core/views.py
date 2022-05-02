@@ -76,6 +76,8 @@ class ObtenerPacienteView(APIView):
         huella_usuario = base64.b64encode(paciente.huella.file.read())
         if huella_base64 == huella_usuario:
             # get Expediente
+            paciente_serialized = PacienteSerializer(paciente)
+            response['paciente'] = paciente_serialized.data
             expediente = paciente.expediente
             try:
                 cita = Cita.objects.filter(expediente=expediente).last()
