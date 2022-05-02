@@ -20,6 +20,7 @@ urlpatterns = [
     path('dashboard/', include('apps.dashboard.urls')),
     path('', LoginView.as_view(), name='login'),
     path('home/', HomeView.as_view(), name='home'),
+    path('get/', ObtenerPacienteView.as_view(), name='obtener'),
     
     # User and Registration urls
     # path('', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),

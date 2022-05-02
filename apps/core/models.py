@@ -8,11 +8,13 @@ from .managers import CustomUserManager
 
 class Usuario(AbstractBaseUser):
     cedula_profesional = models.CharField('Cedula profesional', max_length=50, unique=True)
-    huella = models.ImageField('Huella',upload_to='huellas/', max_length=10485760, unique=True)
+    huella = models.ImageField('Huella',upload_to='huellas/', max_length=10485760)
     nombre = models.CharField('Nombre', max_length=50)
     correo = models.EmailField('Correo', max_length=50, unique=True)
     telefono = models.CharField('Telefono', max_length=50)
     is_superuser = models.BooleanField('Es superusuario', default=False)
+    is_active = models.BooleanField('Activo', default=True)
+    is_staff = models.BooleanField('Es staff', default=False)
 
     USERNAME_FIELD = 'cedula_profesional'
     REQUIRED_FIELDS = ['nombre', 'correo', 'telefono']
@@ -31,7 +33,7 @@ class Usuario(AbstractBaseUser):
 
 class Common(models.Model):
     created_by = models.ForeignKey(Usuario, related_name='+', on_delete=models.CASCADE, null=True)
-    updated_by = models.ForeignKey(Usuario, related_name='+', on_delete=models.CASCADE)
+    updated_by = models.ForeignKey(Usuario, related_name='+', on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
@@ -60,7 +62,7 @@ class Paciente(Common):
     nombre = models.CharField('Nombre', max_length=50)
     fecha_nacimiento = models.DateField('Fecha de nacimiento', auto_now=False, auto_now_add=False)
     curp = models.CharField('CURP', max_length=50)
-    huella = models.CharField('Huella dactila', max_length=999999)
+    huella = models.ImageField('Huella',upload_to='huellas/', max_length=10485760)
     correo = models.EmailField('Correo', max_length=254)
     telefono = models.CharField('Telefono', max_length=50)
     tipo_sangre = models.CharField('Tipo de sangre', choices=TipoSangre.choices, max_length=3)
@@ -144,6 +146,7 @@ class Cita(Common):
     fecha = models.DateTimeField('Fecha', auto_now=False, auto_now_add=False)
     usuario = models.ForeignKey(verbose_name='Medico', to=Usuario, related_name='medico_consulta',
                                 related_query_name='medicos_consulta', on_delete=models.CASCADE)
+    expediente = models.ForeignKey(verbose_name='Expediente', to='Expediente', on_delete=models.CASCADE)
     # content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     # object_id = models.PositiveIntegerField()
     # servicio = GenericForeignKey('content_type', 'object_id')
