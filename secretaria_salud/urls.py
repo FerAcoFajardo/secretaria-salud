@@ -31,5 +31,5 @@ urlpatterns = [
 
     # path('forgot-password/', users_views.forgot_password, name='forgot-password'),
     path('users/', include('apps.users.urls')),
-    path("__reload__/", include("django_browser_reload.urls")),
+    # path("__reload__/", include("django_browser_reload.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

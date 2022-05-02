@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'sslserver',
     'tailwind',
     'secretariasalud',
-    'django_browser_reload',
+    # 'django_browser_reload',
 ]
 
 
