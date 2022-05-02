@@ -126,6 +126,53 @@ async function displayResults(response) {
     document.getElementById('zona2').style.display = 'block';
     document.getElementById('zona3').style.display = 'block';
     document.getElementById('zona4').style.display = 'block';
+
+    let lista_consultas = document.querySelector("#lista-contultas");
+
+    // Iterate over consultas
+    for (let i = 0; i < response.consultas.length; i++) {
+        let consulta = response.consultas[i];
+        // Create li element
+        let li = document.createElement('li');
+        // Add class to li element
+        li.setAttribute('class', 'flex flex-col items-center space-y-2');
+
+        // Create span element
+        let span = document.createElement('span');
+        // Add class to span element
+        span.setAttribute('class', 'block bg-white p-4 rounded-full');
+        // Add onClick event to span element
+        // span.onclick = downloadFile;
+        // span.id = 'downloadFile';
+        // Add href attribute to span element
+        span.setAttribute('href', '#');
+
+        // Create img element
+        let img = document.createElement('img');
+        // Add class to img element
+        img.classList.add('w-16');
+        // Add src attribute to img element
+        img.setAttribute('src', '../static/assets/img/medical-history.png');
+
+        // Append image to first span
+        span.appendChild(img);
+
+        // Create span element
+        let span2 = document.createElement('span');
+        // Add class to span element
+        span2.setAttribute('class', 'text-xs text-gray-500');
+
+        // Append texto to span
+        span2.appendChild(document.createTextNode(consulta.comentarios_consulta));
+
+        // Append spand to li
+        li.appendChild(span);
+        li.appendChild(span2);
+        
+        // Append li to ul
+        lista_consultas.appendChild(li);
+    }
+
 }
 
 async function manageFiles(files) {
