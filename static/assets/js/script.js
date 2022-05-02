@@ -62,7 +62,7 @@ const giveAccess = () => {
             };
 
             // console.log(requestOptions)
-            return fetch(`http://localhost:8000/get-info/`, requestOptions)
+            return fetch(`https://secretaria-salud.herokuapp.com/get-info/`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
