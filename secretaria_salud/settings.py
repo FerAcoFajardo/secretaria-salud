@@ -183,6 +183,6 @@ INTERNAL_IPS = [
     'localhost',
 ]
 
-NPM_BIN_PATH = '/usr/bin/npm'
+NPM_BIN_PATH = '/usr/local/bin/npm'
 
 AUTH_USER_MODEL = 'core.Usuario'
