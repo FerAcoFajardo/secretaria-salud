@@ -92,7 +92,7 @@ const giveAccess = () => {
     })
 }
 
-const downloadFile = () => {
+const downloadFile = (url) => {
     event.preventDefault();
     Swal.fire({
         title: 'Seguro que quiere descargar este archivo?',
@@ -218,6 +218,54 @@ async function displayResults(response) {
         
         // Append li to ul
         lista_laboratorios.appendChild(li);
+    }
+    
+    
+    
+    let lista_imagenes = document.querySelector("#lista-imagenes");
+
+    // Iterate over consultas
+    for (let i = 0; i < response.images.length; i++) {
+        let imagen = response.images[i];
+        // Create li element
+        let li = document.createElement('li');
+        // Add class to li element
+        li.setAttribute('class', 'flex flex-col items-center space-y-2');
+
+        // Create span element
+        let span = document.createElement('span');
+        // Add class to span element
+        span.setAttribute('class', 'block bg-white p-4 rounded-full');
+        // Add onClick event to span element
+        span.addEventListener('click', downloadFile, imagen.imagen);
+        span.id = 'downloadFile';
+        // Add href attribute to span element
+        span.setAttribute('href', imagen.imagen);
+
+        // Create img element
+        let img = document.createElement('img');
+        // Add class to img element
+        img.classList.add('w-16');
+        // Add src attribute to img element
+        img.setAttribute('src', '../static/assets/img/radiografia.png');
+
+        // Append image to first span
+        span.appendChild(img);
+
+        // Create span element
+        let span2 = document.createElement('span');
+        // Add class to span element
+        span2.setAttribute('class', 'text-xs text-gray-500');
+
+        // Append texto to span
+        span2.appendChild(document.createTextNode(imagen.comentarios_imagen));
+
+        // Append spand to li
+        li.appendChild(span);
+        li.appendChild(span2);
+        
+        // Append li to ul
+        lista_imagenes.appendChild(li);
     }
 
 }
