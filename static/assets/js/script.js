@@ -19,6 +19,16 @@ const csrftoken = getCookie('csrftoken');
 
 
 const giveAccess = () => {
+    let curp = document.getElementById('curp-input').value;
+    if(curp === null || curp === ''){
+        Swal.fire({
+            title: 'Error',
+            text: 'Ingrese una CURP',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+        });
+        return;
+    }
     let show = false;
     event.preventDefault();
     swal.fire({
