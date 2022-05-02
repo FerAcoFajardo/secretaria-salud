@@ -65,11 +65,10 @@ class ObtenerPacienteView(APIView):
     
     def get(self, request):
         curp = request.data.get('curp')
+        response = {}
         
-        print(f'{curp=}')
         
         huella = request.data.get('huella')
-        print(huella)
         huella_base64 = base64.b64encode(huella.file.getvalue())
         
         paciente = Paciente.objects.get(curp=curp)
@@ -78,28 +77,35 @@ class ObtenerPacienteView(APIView):
         if huella_base64 == huella_usuario:
             # get Expediente
             expediente = paciente.expediente
-            cita = Cita.objects.filter(expediente=expediente).last()
-            cita_serialized = CitaSerializer(cita)
-            
+            try:
+                cita = Cita.objects.filter(expediente=expediente).last()
+                cita_serialized = CitaSerializer(cita)
+                response['cita'] = cita_serialized.data
+            except Cita.DoesNotExist:
+                return Response({'Error': 'Cita no encontrada'}, status=418)
 
             
-            # consultas = Consulta.objects.filter(cita=cita)
-            consultas = cita.consulta.all()
-            consultas = ConsultaSerializer(consultas, many=True)
             
-            imagen = Imagen.objects.filter(cita=cita)
-            imagen = ImagensSerializer(imagen, many=True)
+            try:
+                consultas = cita.consulta.all()
+                consultas = ConsultaSerializer(consultas, many=True)
+                response['consultas'] = consultas.data
+            except Consulta.DoesNotExist:
+                pass 
             
-            laboratorio = Laboratorio.objects.filter(cita=cita)
-            laboratorio = LaboratorioSerializer(laboratorio, many=True)
+            try:
+                imagen = Imagen.objects.filter(cita=cita)
+                imagen = ImagensSerializer(imagen, many=True)
+                response['images'] = imagen.data
+            except Imagen.DoesNotExist:
+                pass
             
+            try:
+                laboratorio = Laboratorio.objects.filter(cita=cita)
+                laboratorio = LaboratorioSerializer(laboratorio, many=True)
+            except Laboratorio.DoesNotExist:
+                pass
             
-            miau = ExpedienteSerilizer(expediente)
-            
-            
-            response = {'cita': cita_serialized.data, 'consultas': consultas.data, 'images': imagen.data, 'laboratorio': laboratorio.data}
-            
-            # response = {'expediente': miau.data}
             return Response(response, status=200)
             
             
