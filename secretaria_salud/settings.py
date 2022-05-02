@@ -143,7 +143,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    BASE_DIR / "secreatriasalud/static",
+    BASE_DIR / "secretariasalud/static",
 ]
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
@@ -183,7 +183,7 @@ INTERNAL_IPS = [
     'localhost',
 ]
 
-NPM_BIN_PATH = '/usr/local/bin/npm'
+NPM_BIN_PATH = '/usr/bin/npm'
 
 AUTH_USER_MODEL = 'core.Usuario'
 

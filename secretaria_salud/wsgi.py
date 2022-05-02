@@ -10,6 +10,7 @@ import sys
 
 from django.core.wsgi import get_wsgi_application
 from dotenv import load_dotenv
+from dj_static import Cling
 
 # Esto nomas lo cambia Claudio desde el servidor de produccion.
 # BASE_DIR = "/home/claudio/deploys/xxx" 
@@ -19,4 +20,6 @@ from dotenv import load_dotenv
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'secretaria_salud.settings')
 
-application = get_wsgi_application()
+# application = get_wsgi_application()
+
+application = Cling(get_wsgi_application())
