@@ -25,7 +25,7 @@ urlpatterns = [
     # User and Registration urls
     # path('', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
     # path('profile/', users_views.ProfileView.as_view(), name='profile'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='registration/login.html'), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     # path('register/', users_views.RegisterView.as_view(), name='register'),
     # path('register-admin/', staff_member_required(users_views.RegisterViewAdmin.as_view()), name='registerAdmin'),
 

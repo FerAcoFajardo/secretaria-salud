@@ -160,7 +160,7 @@ CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 
-# LOGIN_URL = '/'
+LOGIN_URL = '/'
 
 LOGIN_REDIRECT_URL = 'dashboard:index'
 
@@ -197,3 +197,5 @@ CORS_ORIGIN_WHITELIST = (
     'http://secretaria-salud.herokuapp.com',
     'http://secretaria-salud.herokuapp.com/',
 )
+
+LOGOUT_REDIRECT_URL = '/'
