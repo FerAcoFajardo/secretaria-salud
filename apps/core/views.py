@@ -53,7 +53,7 @@ class LoginView(View):
         return redirect(reverse_lazy('home'))
 
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
 
     def get(self, request):
