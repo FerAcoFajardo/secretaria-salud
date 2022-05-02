@@ -1,0 +1,1 @@
+web: gunicorn secretaria_salud.wsgi
