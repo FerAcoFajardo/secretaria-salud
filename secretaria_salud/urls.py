@@ -16,6 +16,7 @@ from apps.core.views import *
 # from exampleApp.views import IndexExample
 
 urlpatterns = [
+    path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
     path('dashboard/', include('apps.dashboard.urls')),
     path('', LoginView.as_view(), name='login'),

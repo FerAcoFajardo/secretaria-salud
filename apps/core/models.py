@@ -1,12 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 from .managers import CustomUserManager
 
 
-class Usuario(AbstractBaseUser):
+class Usuario(AbstractBaseUser, PermissionsMixin):
     cedula_profesional = models.CharField('Cedula profesional', max_length=50, unique=True)
     huella = models.ImageField('Huella',upload_to='huellas/', max_length=10485760)
     nombre = models.CharField('Nombre', max_length=50)
@@ -32,6 +33,14 @@ class Usuario(AbstractBaseUser):
 
 
 class Common(models.Model):
+    """Modelo base para todos los modelos
+    
+    Este modelo hereda de models.Model, que es el modelo base de Django.
+    
+    ``created_by``
+        Una llave foranea que apunta a la tabla ``Usuario``.
+
+    """
     created_by = models.ForeignKey(Usuario, related_name='+', on_delete=models.CASCADE, null=True)
     updated_by = models.ForeignKey(Usuario, related_name='+', on_delete=models.CASCADE, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
