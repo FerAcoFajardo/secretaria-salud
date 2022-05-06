@@ -12,14 +12,20 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from .models import *
-from .forms import *
-from .serializers import *
+from core.models import *
+from core.forms import *
+from core.serializers import *
 
 import base64
 
 
 class LoginView(View):
+    """View para el login
+
+    :model: `core.Usuario`
+    :views: `core.LoginView`
+    :template: `index.html`
+    """
     def get(self, request):
         form = LoginForm()
         return render(request, 'index.html', {'form': form})

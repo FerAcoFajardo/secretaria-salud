@@ -11,14 +11,14 @@ from django.conf.urls.static import static
 from django.urls import include, path
 # from apps.users import views as users_views
 from django.contrib.admin.views.decorators import staff_member_required
-from apps.core.views import *
+from core.views import *
 
 # from exampleApp.views import IndexExample
 
 urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
-    path('dashboard/', include('apps.dashboard.urls')),
+    path('dashboard/', include('dashboard.urls')),
     path('', LoginView.as_view(), name='login'),
     path('home/', HomeView.as_view(), name='home'),
     path('get-info/', ObtenerPacienteView.as_view(), name='obtener'),
@@ -31,6 +31,6 @@ urlpatterns = [
     # path('register-admin/', staff_member_required(users_views.RegisterViewAdmin.as_view()), name='registerAdmin'),
 
     # path('forgot-password/', users_views.forgot_password, name='forgot-password'),
-    path('users/', include('apps.users.urls')),
+    path('users/', include('users.urls')),
     # path("__reload__/", include("django_browser_reload.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

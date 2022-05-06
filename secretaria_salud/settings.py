@@ -39,10 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
 
-    # Django Project Apps
-    'apps.dashboard',
-    # 'apps.users',
-    'apps.core',
 
     # Third Pary Apps
     'rest_framework',
@@ -53,6 +49,10 @@ INSTALLED_APPS = [
     'sslserver',
     'tailwind',
     'secretariasalud',
+    # Django Project Apps
+    'dashboard',
+    # 'apps.users',
+    'core',
     # 'django_browser_reload',
 ]
 

@@ -4,10 +4,25 @@ from django.contrib.auth.models import PermissionsMixin
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
-from .managers import CustomUserManager
+from core.managers import CustomUserManager
 
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
+    """Modelo para el usuario
+
+    Atributos:
+        cedula_profesional: cedula del profesional
+        huella: huella digital del profesional
+        nombre: nombre del profesional
+        correo: correo del profesional
+        telefono: telefono del profesional
+        is_active: Si es un usuario activo
+        is_staff: Si es un usuario de staff
+        is_superuser: Si es un usuario superusuario
+        
+    :model: `core.Usuario`
+    
+    """
     cedula_profesional = models.CharField('Cedula profesional', max_length=50, unique=True)
     huella = models.ImageField('Huella',upload_to='huellas/', max_length=10485760)
     nombre = models.CharField('Nombre', max_length=50)
