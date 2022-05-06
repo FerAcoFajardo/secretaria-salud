@@ -8,13 +8,15 @@ import base64
 
 
 class LoginForm(forms.Form):
+    """Formulario para el login"""
     def __init__(self, *args, **kwargs):
         super(LoginForm, self).__init__(*args, **kwargs)
 
+    # Cedula profesional del usuario
     cedula_profesional = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Cédula Profesional',
                                                                      'class': 'border w-full h-10 px-3 '
                                                                               'mb-5 rounded-md'}))
-
+    # Huella digital del usuario
     huella = forms.CharField(widget=forms.FileInput(attrs={'placeholder': 'Huella',
                                                            'class': 'form-control block w-full px-5 py-1.5 text-base '
                                                                     'font-normal text-gray-700 w-full h-10 mb-14 pb-14'
@@ -23,22 +25,3 @@ class LoginForm(forms.Form):
                                                                     'ease-in-out m-0 focus:text-gray-700 '
                                                                     'focus:bg-white focus:border-blue-600 '
                                                                     'focus:outline-none'}))
-
-
-    
-    # def authenticate(self, request):
-    #     cedula_profesional = self.cleaned_data['cedula_profesional']
-    #     huella = self.cleaned_data['huella']
-        
-    #     print(base64.b64encode(huella.file.getvalue()))
-        
-    #     print(f'{cedula_profesional}')
-    #     print(f'{huella}')
-        
-    #     if cedula_profesional and huella:
-            
-    #         usuario = Usuario.objects.get(cedula_profesional=cedula_profesional)
-    #         print(f'{usuario.huella}')
-    #         login(request, usuario)
-    #         return usuario
-    #     return None

@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import *
 
 class ExpedienteSerilizer(serializers.ModelSerializer):
-
+    """Serializador para el modelo `core.Expediente`"""
     
     class Meta:
         model = Expediente
@@ -11,7 +11,7 @@ class ExpedienteSerilizer(serializers.ModelSerializer):
 
         
 class CitaSerializer(serializers.ModelSerializer):
-    
+    """Serializador para el modelo `core.Cita`"""
     
     class Meta:
         model = Cita
@@ -19,7 +19,7 @@ class CitaSerializer(serializers.ModelSerializer):
         
 
 class ConsultaSerializer(serializers.ModelSerializer):
-    
+    """Serializador para el modelo `core.Consulta`"""
     
     class Meta:
         model = Consulta
@@ -31,7 +31,7 @@ class ConsultaSerializer(serializers.ModelSerializer):
         
         
 class ImagensSerializer(serializers.ModelSerializer):
-    
+    """Serializador para el modelo `core.Imagen`"""
     
     class Meta:
         model = Imagen
@@ -44,7 +44,7 @@ class ImagensSerializer(serializers.ModelSerializer):
         
         
 class LaboratorioSerializer(serializers.ModelSerializer):
-        
+    """Serializador para el modelo `core.Laboratorio`"""
     
     class Meta:
         model = Laboratorio
@@ -52,7 +52,7 @@ class LaboratorioSerializer(serializers.ModelSerializer):
         
 
 class PacienteSerializer(serializers.ModelSerializer):
-    
+    """Serializador para el modelo `core.Paciente`"""
     
     class Meta:
         model = Paciente
