@@ -53,19 +53,16 @@ const giveAccess = () => {
 
             // console.log(formdata);
 
-            let myHeaders = new Headers();
-            myHeaders.append("Authorization", "Token d410e690ebc388c4ef3669df78966085c18dc284");
-            myHeaders.append("X-CSRFToken", csrftoken);
             let requestOptions = {
                 method: 'POST',
                 body: formdata,
-                headers: myHeaders,
+                headers: { 'X-CSRFToken': csrftoken },
                 redirect: 'follow',
                 csrfmiddlewaretoken: '{{ csrf_token() }}'
             };
-    
+
             // console.log(requestOptions)
-            return fetch(`http://localhost:8000/get-info/`, requestOptions)
+            return fetch(`https://secretaria-salud.herokuapp.com/get-info/`, requestOptions)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
