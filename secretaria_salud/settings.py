@@ -39,9 +39,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
 
+    # Django Project Apps
+    'dashboard',
+    # 'apps.users',
+    'core',
+    # 'django_browser_reload',
 
     # Third Pary Apps
     'rest_framework',
+    'rest_framework.authtoken',
+    'oauth2_provider',
     'crispy_forms',
     'crispy_bootstrap5',
     'simple_history',
@@ -49,11 +56,6 @@ INSTALLED_APPS = [
     'sslserver',
     'tailwind',
     'secretariasalud',
-    # Django Project Apps
-    'dashboard',
-    # 'apps.users',
-    'core',
-    # 'django_browser_reload',
 ]
 
 
@@ -172,6 +174,9 @@ AUTH_USER_MODEL = 'users.User'
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 20,

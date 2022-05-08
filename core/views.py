@@ -7,17 +7,25 @@ from django.views.generic import TemplateView
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core import serializers
+from django.contrib.auth.hashers import make_password
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authtoken.models import Token
+from oauth2_provider.models import AccessToken
+from oauth2_provider.models import Application
+
 
 from core.models import *
 from core.forms import *
 from core.serializers import *
 
-import base64
-
+import base64, json
+from datetime import datetime
+import requests
 
 class LoginView(View):
     """ View para el login
@@ -93,6 +101,10 @@ class HomeView(LoginRequiredMixin, TemplateView):
 class ObtenerPacienteView(APIView):
     """ View para obtener la información del paciente
     """
+    
+    authentication_classes = [SessionAuthentication, TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
     def post(self, request):
         """ Función post, para manejar las peticiones post del cliente
         
@@ -129,7 +141,7 @@ class ObtenerPacienteView(APIView):
                 response['cita'] = cita_serialized.data
             except Cita.DoesNotExist:
                 # Si no existe la cita, se envia mensaje de error con el estatus 418
-                return Response({'Error': 'Cita no encontrada'}, status=418)
+                return Response({'Error': 'Cita no encontrada'}, status=status.HTTP_418_IM_A_TEAPOT)
 
             
             
@@ -164,10 +176,89 @@ class ObtenerPacienteView(APIView):
                 pass
             
             # Se regresa la respuesta del servidor
-            return Response(response, status=200)
+            return Response(response, status=status.HTTP_200_OK)
             
-            
-            
+
+class LoginAPIView(APIView):
+    
+    def post(self, request):
+        
+        data = request.data
+        cedula_profesional = data.get('cedula_profesional')
+        huella = data.get('huella')
+        huella_base64 = base64.b64encode(huella.file.getvalue())
+        if cedula_profesional and huella:
+            usuario = Usuario.objects.get(cedula_profesional=cedula_profesional)
+            huella_usuario = base64.b64encode(usuario.huella.file.read())
+            if huella_base64 == huella_usuario:
+                token = Token.objects.get_or_create(user=usuario)[0]
+                return Response({'token': token.key}, status=status.HTTP_200_OK)
+            else:
+                return Response({'Message': 'Cedula o huella no coinciden'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'Message': 'Faltan datos'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    def get(self, request):
+        return Response({'Message': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    
+    def put(self, request):
+        return Response({'Message': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    
+    def patch(self, request):
+        return Response({'Message': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    
+    def delete(self, request):
+        return Response({'Message': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    
+    
+class OauthLoginAPIView(APIView):
+    
+    def post(self, request):
+        data = request.data
+        cedula_profesional = data.get('cedula_profesional')
+        # huella = data.get('huella')
+        # huella_base64 = base64.b64encode(huella.file.getvalue())
+        password = data.get('password')
+        print(password)
+        password = make_password(password)
+        
+        # if cedula_profesional and huella:
+        usuario = Usuario.objects.get(cedula_profesional=cedula_profesional)
+        
+        print(usuario.password)
+        print(password)
+        # huella_usuario = base64.b64encode(usuario.huella.file.read())
+        # if huella_base64 == huella_usuario:
+        token = AccessToken.objects.filter(user=usuario, expires__gt=datetime.now())
+        if token:
+            token = token.first()
+            token = token.token
+            return Response({'token': token.token}, status=status.HTTP_200_OK)
+        else:
+            if not Application.objects.filter(user=usuario.id).exists():
+                Application.objects.create(user=usuario.id, authorization_grant_type='password', client_type='confidential')
+            app = Application.objects.filter(user=usuario.id).first()
+            if app:
+                url = f'http://{request.get_host()}/o/token/'
+                # print(url)
+                client_id = app.client_id
+                client_secret = app.client_secret
+                data_dict = {"grant_type": "password", "username": cedula_profesional, "password": password, "client_id": client_id, "client_secret": client_secret}
+                # print(data_dict)
+                aa = requests.post(url, data=data_dict)
+                data = json.loads(aa.text)
+                print(data)
+                token = data.get('access_token', '')
+                return Response({'token': token}, status=status.HTTP_200_OK)
+        # else:
+            # return Response({'Message': 'Cedula o huella no coinciden'}, status=status.HTTP_400_BAD_REQUEST)
         
         
+class CreatePasswordAPIView(APIView):
+    def post(self, request):
+        data = request.data
+        password = data.get('password')
+        print(password)
+        password = make_password(password)
         
+        return Response({'password': password}, status=status.HTTP_200_OK)

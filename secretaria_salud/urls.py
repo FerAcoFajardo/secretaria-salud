@@ -22,6 +22,11 @@ urlpatterns = [
     path('', LoginView.as_view(), name='login'),
     path('home/', HomeView.as_view(), name='home'),
     path('get-info/', ObtenerPacienteView.as_view(), name='obtener'),
+    path('api/login/', LoginAPIView.as_view(), name='login-api'),
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    path('oauth/login/', OauthLoginAPIView.as_view(), name='login-oauth'),
+    path('make-password/',CreatePasswordAPIView.as_view(), name='make-password'),
+    
     
     # User and Registration urls
     # path('', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
