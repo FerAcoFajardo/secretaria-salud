@@ -248,7 +248,10 @@ class ListCreatePacienteAPIView(APIView):
     def patch(self, request):
         pk = request.query_params.get('pk')
         
-        paciente = Paciente.objects.get(pk=pk)
+        try:
+            paciente = Paciente.objects.get(pk=pk)
+        except Exception as e:
+            return Response({'Message': 'Paciente no encontrado'}, status=status.HTTP_404_NOT_FOUND)
         
         paciente_serialized = PacienteSerializer(paciente, data=request.data)
         
