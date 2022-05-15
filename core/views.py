@@ -98,7 +98,11 @@ class HomeView(LoginRequiredMixin, TemplateView):
     
     
 class ObtenerPacienteView(APIView):
-    """ View para obtener la información del paciente
+    """ View to get pacient's information
+    
+    Payload:
+        curp: pacient's curp
+        huella: pacient's fingerprint 
     """
     
     authentication_classes = [SessionAuthentication, TokenAuthentication]
@@ -179,6 +183,14 @@ class ObtenerPacienteView(APIView):
             
 
 class LoginAPIView(APIView):
+    """ View to login with professional license and huella
+    
+    cedula_profesional: professional license
+    huella: huella del usuario
+
+    Return:
+        Response: Response of the server with the user's token
+    """
     
     def post(self, request):
         
@@ -211,6 +223,12 @@ class LoginAPIView(APIView):
 
 
 class CreatePasswordAPIView(APIView):
+    """ View to create a new password with django hash
+
+        password: password in plain text
+    Returns:
+        Response: Response of the server with the hashed user's password
+    """
     def post(self, request):
         data = request.data
         password = data.get('password')
@@ -221,6 +239,18 @@ class CreatePasswordAPIView(APIView):
     
     
 class ListCreatePacienteAPIView(APIView):
+    """ View to manage http methods for the paciente model
+
+        This View has five methods:
+            get: List all pacientes or retrive a paciente by id
+            post: Create a new paciente
+            put: Update a paciente
+            patch: Update a paciente
+            delete: Delete a paciente
+            
+        Security:
+            To call this view, user must be authenticated, and can be authenticated by django's session, Token authentication or Basic authentication
+    """
     model = Paciente
     serializer_class = PacienteSerializer
     permission_classes = [IsAuthenticated]
@@ -232,6 +262,20 @@ class ListCreatePacienteAPIView(APIView):
 
     
     def post(self, request):
+        """ Post method to create a new paciente
+
+            Args:
+                nombre: name of the paciente
+                fecha_nacimiento: date of birth of the paciente
+                curp: CURP of the paciente
+                huella: fingerprint of the paciente
+                correo: email of the paciente
+                telefono: phone of the paciente
+                tipo_sangre: blood type of the paciente
+                sexo: sex of the pacient
+                es_menor: boolean to know if the paciente is under 18 yers old(optional, default is false)
+                tutor: Tutor's id
+        """
         
         paciente = PacienteSerializer(data=request.data)
         
@@ -243,9 +287,37 @@ class ListCreatePacienteAPIView(APIView):
             return Response(paciente.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def put(self, request, *args, **kwargs):
+        """ Post method to edit a new paciente
+
+            Args:
+                nombre: name of the paciente
+                fecha_nacimiento: date of birth of the paciente
+                curp: CURP of the paciente
+                huella: fingerprint of the paciente
+                correo: email of the paciente
+                telefono: phone of the paciente
+                tipo_sangre: blood type of the paciente
+                sexo: sex of the pacient
+                es_menor: boolean to know if the paciente is under 18 yers old(optional, default is false)
+                tutor: Tutor's id
+        """
         return self.patch(request, *args, **kwargs)
     
     def patch(self, request):
+        """ Post method to edit a new paciente
+
+            Args:
+                nombre: name of the paciente
+                fecha_nacimiento: date of birth of the paciente
+                curp: CURP of the paciente
+                huella: fingerprint of the paciente
+                correo: email of the paciente
+                telefono: phone of the paciente
+                tipo_sangre: blood type of the paciente
+                sexo: sex of the pacient
+                es_menor: boolean to know if the paciente is under 18 yers old(optional, default is false)
+                tutor: Tutor's id
+        """
         pk = request.query_params.get('pk')
         
         try:
@@ -262,7 +334,11 @@ class ListCreatePacienteAPIView(APIView):
             return Response(paciente_serialized.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def delete(self, request):
-        
+        """ Post method to delete a new paciente
+
+            Args:
+                id: id of the paciente
+        """
         pk = request.query_params.get('pk')
         
         try:
@@ -274,7 +350,15 @@ class ListCreatePacienteAPIView(APIView):
         
     
     def get(self, request):
+        """ View to get all pacientes or a paciente by id
         
+        Args:
+            id: id of the paciente
+            
+        Returns:
+            Response: Response of the server with the paciente or a list of pacientes
+        
+        """
         pk = request.query_params.get('pk')
         
         try:
