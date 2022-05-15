@@ -275,9 +275,15 @@ class ListCreatePacienteAPIView(APIView):
         pk = request.query_params.get('pk')
         
         try:
-            paciente = Paciente.objects.get(pk=pk)
-            paciente_serialized = PacienteSerializer(paciente)
-            return Response(paciente_serialized.data, status=status.HTTP_200_OK)
+            if pk:
+                paciente = Paciente.objects.get(pk=pk)
+                paciente_serialized = PacienteSerializer(paciente)
+                return Response(paciente_serialized.data, status=status.HTTP_200_OK)
+            else:
+                print('miau')
+                pacientes = Paciente.objects.all()
+                pacientes_serialized = PacienteSerializer(pacientes, many=True)
+                return Response(pacientes_serialized.data, status=status.HTTP_200_OK)
         except Exception as e:
             print(e)
             return Response({'Message': 'No se pudo encontrar el paciente'}, status=status.HTTP_404_NOT_FOUND)
