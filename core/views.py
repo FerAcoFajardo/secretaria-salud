@@ -12,11 +12,10 @@ from django.contrib.auth.hashers import make_password
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
-from oauth2_provider.models import AccessToken
-from oauth2_provider.models import Application
+from rest_framework.views import exception_handler
 
 
 from core.models import *
@@ -209,51 +208,8 @@ class LoginAPIView(APIView):
     
     def delete(self, request):
         return Response({'Message': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
-    
-    
-class OauthLoginAPIView(APIView):
-    
-    def post(self, request):
-        data = request.data
-        cedula_profesional = data.get('cedula_profesional')
-        # huella = data.get('huella')
-        # huella_base64 = base64.b64encode(huella.file.getvalue())
-        password = data.get('password')
-        print(password)
-        password = make_password(password)
-        
-        # if cedula_profesional and huella:
-        usuario = Usuario.objects.get(cedula_profesional=cedula_profesional)
-        
-        print(usuario.password)
-        print(password)
-        # huella_usuario = base64.b64encode(usuario.huella.file.read())
-        # if huella_base64 == huella_usuario:
-        token = AccessToken.objects.filter(user=usuario, expires__gt=datetime.now())
-        if token:
-            token = token.first()
-            token = token.token
-            return Response({'token': token.token}, status=status.HTTP_200_OK)
-        else:
-            if not Application.objects.filter(user=usuario.id).exists():
-                Application.objects.create(user=usuario.id, authorization_grant_type='password', client_type='confidential')
-            app = Application.objects.filter(user=usuario.id).first()
-            if app:
-                url = f'http://{request.get_host()}/o/token/'
-                # print(url)
-                client_id = app.client_id
-                client_secret = app.client_secret
-                data_dict = {"grant_type": "password", "username": cedula_profesional, "password": password, "client_id": client_id, "client_secret": client_secret}
-                # print(data_dict)
-                aa = requests.post(url, data=data_dict)
-                data = json.loads(aa.text)
-                print(data)
-                token = data.get('access_token', '')
-                return Response({'token': token}, status=status.HTTP_200_OK)
-        # else:
-            # return Response({'Message': 'Cedula o huella no coinciden'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        
+
+
 class CreatePasswordAPIView(APIView):
     def post(self, request):
         data = request.data
@@ -262,3 +218,66 @@ class CreatePasswordAPIView(APIView):
         password = make_password(password)
         
         return Response({'password': password}, status=status.HTTP_200_OK)
+    
+    
+class ListCreatePacienteAPIView(APIView):
+    model = Paciente
+    serializer_class = PacienteSerializer
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [
+        SessionAuthentication, 
+        TokenAuthentication, 
+        BasicAuthentication
+    ]
+
+    
+    def post(self, request):
+        
+        paciente = PacienteSerializer(data=request.data)
+        
+        if paciente.is_valid():
+            paciente = paciente.save()
+            paciente_guardado = PacienteSerializer(paciente)
+            return Response({'Message': 'Creación exitosa',"info_paciente":paciente_guardado.data }, status=status.HTTP_201_CREATED)
+        else:
+            return Response(paciente.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def put(self, request, *args, **kwargs):
+        return self.patch(request, *args, **kwargs)
+    
+    def patch(self, request):
+        pk = request.query_params.get('pk')
+        
+        paciente = Paciente.objects.get(pk=pk)
+        
+        paciente_serialized = PacienteSerializer(paciente, data=request.data)
+        
+        if paciente_serialized.is_valid():
+            paciente_serialized.save()
+            return Response({'Message': 'Edición exitosa',"info_paciente":paciente_serialized.data }, status=status.HTTP_200_OK)
+        else:
+            return Response(paciente_serialized.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request):
+        
+        pk = request.query_params.get('pk')
+        
+        try:
+            Paciente.objects.get(pk=pk).delete()
+            return Response({'Message': 'Se borró exitosa mente al paciente'}, status=status.HTTP_200_OK)
+        except Paciente.DoesNotExist as e:
+            # error = exception_handler(e, request.data)
+            return Response({'Message': 'No se pudó eliminar el paciente o no existe'}, status=status.HTTP_404_NOT_FOUND)
+        
+    
+    def get(self, request):
+        
+        pk = request.query_params.get('pk')
+        
+        try:
+            paciente = Paciente.objects.get(pk=pk)
+            paciente_serialized = PacienteSerializer(paciente)
+            return Response(paciente_serialized.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            print(e)
+            return Response({'Message': 'No se pudo encontrar el paciente'}, status=status.HTTP_404_NOT_FOUND)

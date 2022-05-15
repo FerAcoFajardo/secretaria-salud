@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
-from django.contrib.contenttypes.fields import GenericForeignKey
-from django.contrib.contenttypes.models import ContentType
+from django.utils.translation import gettext_lazy as _
+from django.db.models.signals import post_save, pre_save
+from django.dispatch import receiver
 
 from core.managers import CustomUserManager
 
@@ -117,9 +118,9 @@ class Paciente(Common):
     
     nombre = models.CharField('Nombre', max_length=50)
     fecha_nacimiento = models.DateField('Fecha de nacimiento', auto_now=False, auto_now_add=False)
-    curp = models.CharField('CURP', max_length=50)
+    curp = models.CharField('CURP', max_length=18, unique=True)
     huella = models.ImageField('Huella',upload_to='huellas/', max_length=10485760)
-    correo = models.EmailField('Correo', max_length=254)
+    correo = models.EmailField('Correo', max_length=254, unique=True)
     telefono = models.CharField('Telefono', max_length=50)
     tipo_sangre = models.CharField('Tipo de sangre', choices=TipoSangre.choices, max_length=3)
     sexo = models.CharField('Sexo', choices=Sexo.choices, null=True, blank=True, max_length=30)
@@ -135,6 +136,12 @@ class Paciente(Common):
         verbose_name_plural = 'Pacientes'
         ordering = ['nombre']
     
+
+@receiver(post_save, sender=Paciente)
+def create_expediente(sender, instance, created, **kwargs):
+    if created:
+        Expediente.objects.create(paciente=instance)
+
 
 class Expediente(Common):
     """ Modelo de expediente

@@ -23,9 +23,8 @@ urlpatterns = [
     path('home/', HomeView.as_view(), name='home'),
     path('get-info/', ObtenerPacienteView.as_view(), name='obtener'),
     path('api/login/', LoginAPIView.as_view(), name='login-api'),
-    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
-    path('oauth/login/', OauthLoginAPIView.as_view(), name='login-oauth'),
     path('make-password/',CreatePasswordAPIView.as_view(), name='make-password'),
+    path('api/paciente/', ListCreatePacienteAPIView.as_view(), name='paciente-api'),
     
     
     # User and Registration urls

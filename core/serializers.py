@@ -57,3 +57,19 @@ class PacienteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Paciente
         fields = '__all__'
+        
+        
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(PacienteSerializer, self).__init__(*args, **kwargs)
+        
+        
+    def save(self, commit=True):
+        instance = super(PacienteSerializer, self).save(commit = commit)
+        
+        if self.user is not None:
+            if instance.id is None:
+                instance.created_by = self.user
+            instance.updated_by = self.user
+        if commit:
+            instance.save()
